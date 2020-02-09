@@ -89,23 +89,25 @@ public class character : MonoBehaviour {
 
 
 		}
-	bool firstTime = true; //KOSTYL delete later
+	bool firstTimeJump = true; //KOSTYL delete later
+	//bool firtstTimeMove = true; // KOSTYL For keyboard
 	void Update()
 	{
 
-			if(firstTime && Input.GetKeyDown("w")){
+			if(firstTimeJump && Input.GetKeyDown("w")){
 				//doMove = true;
 				doJump=true;
-				firstTime = false;
+				firstTimeJump = false;
 			}
-			if(!firstTime && Input.GetKeyUp("w")){
-				firstTime = true;
+			if(!firstTimeJump && Input.GetKeyUp("w")){
+				firstTimeJump = true;
 			}
 
 			
 
-			if(Input.GetAxis("Horizontal") >0 || Input.GetAxis("Horizontal") <0)
+			if(( Input.GetAxis("Horizontal") >0 || Input.GetAxis("Horizontal") <0))
 		{
+			//firstTimeJump = false;
 			doMove = true;
 		
 			//move(new Vector2(Input.GetAxis("Horizontal"), rb.velocity.y)); // KOSTYL DETECTED

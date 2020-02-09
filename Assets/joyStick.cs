@@ -31,11 +31,21 @@ public class joyStick : MonoBehaviour
 
     }
 
+   // if(Input.mousePosition.x < (Camera.main.scaledPixelWidth * 0,8){
+   //     screenPart = true;
+   // }
 
+    private bool screenPart= false;
     private void FixedUpdate()
     {
+        screenPart= false;
+        var rightPart = (Camera.main.scaledPixelWidth * 0.8f);
+            if(Input.mousePosition.x < rightPart)
+            {
+            screenPart = true;
+            }
         isMoving = false;
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && screenPart)
         {
 
             pointA = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
@@ -44,7 +54,7 @@ public class joyStick : MonoBehaviour
 
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && screenPart)
         {
             /*        if (Input.mousePosition.x > Camera.main.scaledPixelWidth / 2)
                     {
@@ -59,7 +69,7 @@ public class joyStick : MonoBehaviour
             touchStart = false;
         }
 
-        if (touchStart)
+        if (touchStart && screenPart)
         {
             /*     if (Input.mousePosition.x > Camera.main.scaledPixelWidth / 2)
                  {
@@ -70,7 +80,7 @@ public class joyStick : MonoBehaviour
 
             Vector2 direction = Vector2.ClampMagnitude(offset, 1.0f);
             Vector2 joysticDirection = Vector2.ClampMagnitude(joysticOffset, 1.0f);
-
+            print(direction);
             moveCharacter(direction);
             outerCircle.transform.position = new Vector2(pointA.x, pointA.y);
             innerCircle.transform.position = new Vector2(pointA.x + joysticDirection.x, pointA.y + joysticDirection.y);

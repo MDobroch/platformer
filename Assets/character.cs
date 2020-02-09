@@ -5,7 +5,7 @@ public class character : MonoBehaviour {
 	public float maxSpeed = 10f;
 	//public Vector2 speed = new Vector2(10, 0);
 	public float jumpForce = 5f;
-	float yVel;
+	//float yVel;
 
 
 
@@ -14,14 +14,19 @@ public class character : MonoBehaviour {
 	public Transform groundCheck;
 	public float groundRadius = 0.2f;
 	public LayerMask whatIsGround;
+
+
 	//private float vSpeed;
 
 	private Vector3 position;
 
 	private  Rigidbody2D rb;
+	private bool doJump;
+	private bool doMove;
 
-	[Range(1, 10)]
-	public float jumpVelocity;
+
+//	[Range(1, 10)]
+//	public float jumpVelocity;
 
 	// Use this for initialization
 	void Start () {
@@ -37,17 +42,27 @@ public class character : MonoBehaviour {
 
 		//Input.GetAxis("horyzontal");
 
-			if(Input.GetAxis("Horizontal") >0 || Input.GetAxis("Horizontal") <0)
-		{
-			move(new Vector2(Input.GetAxis("Horizontal")*12f, rb.velocity.y)); // KOSTYL DETECTED
-		}
+	//		if(Input.GetAxis("Horizontal") >0 || Input.GetAxis("Horizontal") <0)
+	//	{
+			//move(new Vector2(Input.GetAxis("Horizontal"), rb.velocity.y)); // KOSTYL DETECTED
+		//}
 
+			if(doMove){
+				move(new Vector2(Input.GetAxis("Horizontal"), rb.velocity.y));
+				doMove = false;
+			}
+
+			if(doJump){
+				jump();
+				doJump=false;
+			}
+			
 
 			//move(new Vector2(Input.GetAxis("Horizontal"), rb.velocity.y));  // keyboard check
-			if (Input.GetAxis("Vertical") > 0)
-			{
-				jump();
-			}
+		//	if (Input.GetAxis("Vertical") > 0)
+		//	{
+		//		jump();
+		//	}
 
 			grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
 
@@ -74,11 +89,44 @@ public class character : MonoBehaviour {
 
 
 		}
-	
+	bool firstTime = true; //KOSTYL delete later
 	void Update()
 	{
-		yVel = rb.velocity.y;
-		print(yVel);
+
+			if(firstTime && Input.GetKeyDown("w")){
+				//doMove = true;
+				doJump=true;
+				firstTime = false;
+			}
+			if(!firstTime && Input.GetKeyUp("w")){
+				firstTime = true;
+			}
+
+			
+
+			if(Input.GetAxis("Horizontal") >0 || Input.GetAxis("Horizontal") <0)
+		{
+			doMove = true;
+		
+			//move(new Vector2(Input.GetAxis("Horizontal"), rb.velocity.y)); // KOSTYL DETECTED
+		}
+
+				if (Input.GetAxis("Vertical") > 0)
+			{
+	
+				//doJump = true;
+			}
+
+
+	//	if(doMove){
+	//		move(new Vector2(Input.GetAxis("Horizontal"), rb.velocity.y)); // KOSTYL DETECTED
+	//	}
+
+	//	if(doJump){
+			
+	//	}
+	//	yVel = rb.velocity.y;
+	//s	print(yVel);
 
 		/*		//Input.GetAxis("horyzontal");
 				move(new Vector2(Input.GetAxis("Horizontal"), 0));  // keyboard check
@@ -101,22 +149,22 @@ public class character : MonoBehaviour {
 
 	public  void jump()
 	{
+		if(!grounded){
+			//print("Ungrounded force" + jumpForce);
+		}
 		if (grounded) {
-			print("jumpForce" + jumpForce);
-			//rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
 			rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
-			//rb.velocity = Vector2.up * jumpVelocity;	
-			//rb.velocity = new Vector2(0, 10) * jumpForce;
-			//rb.AddForce(new Vector2(0, 10) * jumpForce);
+			print(rb.velocity);
 
-			//rb.velocity = (Vector2.up * speed * 5);
 		}
 	}
 
 	public void move(Vector2 direction)
 	{
+		float yVel = rb.velocity.y;
+		Vector2 yVelocity = new Vector2(direction.x*12f,  yVel);
 		//rb.AddForce(direction * speed, ForceMode2D.Impulse);
-		rb.velocity = direction;
+		rb.velocity = yVelocity;
 	}
 
 	

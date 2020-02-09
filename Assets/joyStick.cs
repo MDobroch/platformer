@@ -89,6 +89,7 @@ public class joyStick : MonoBehaviour
     void moveCharacter(Vector2 direction) {
         isMoving = true;
 
+
         player.move(direction);
 
         //player.GetComponent<Rigidbody2D>.velocity = direction;

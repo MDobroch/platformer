@@ -611,13 +611,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 10
-  jumpForce: 5
+  jumpForce: 7
   groundCheck: {fileID: 1311685109}
   groundRadius: 0.2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
-  jumpVelocity: 5.01
 --- !u!1 &899635638
 GameObject:
   m_ObjectHideFlags: 0

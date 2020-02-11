@@ -164,7 +164,7 @@ public class character : MonoBehaviour {
 	public void move(Vector2 direction)
 	{
 		float yVel = rb.velocity.y;
-		Vector2 yVelocity = new Vector2(direction.x*12f,  yVel);
+		Vector2 yVelocity = new Vector2(direction.x*5f,  yVel);
 		//rb.AddForce(direction * speed, ForceMode2D.Impulse);
 		rb.velocity = yVelocity;
 	}

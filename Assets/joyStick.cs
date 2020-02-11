@@ -27,6 +27,21 @@ public class joyStick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Touch[] toucArr = Input.touches;
+
+        for (int i = 0; i < toucArr.Length; i++) { 
+            
+        }
+
+        if (Input.touchCount > 0)
+        {
+            print("1");
+        }
+
+        if(Input.touchCount == 2)
+        {
+            print("2");
+        }
 
 
     }
@@ -102,10 +117,6 @@ public class joyStick : MonoBehaviour
 
         player.move(direction);
 
-        //player.GetComponent<Rigidbody2D>.velocity = direction;
-        //player.moveMe(direction);
-        //player.Translate(direction * speed * Time.deltaTime);
-       // player.Translate(direction * speed * Time.deltaTime);
     }
 
 

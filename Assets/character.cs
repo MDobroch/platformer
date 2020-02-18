@@ -24,6 +24,8 @@ public class character : MonoBehaviour {
 	private bool doJump;
 	private bool doMove;
 
+	public Animator animanor;
+
 
 //	[Range(1, 10)]
 //	public float jumpVelocity;
@@ -42,15 +44,20 @@ public class character : MonoBehaviour {
 
 		//Input.GetAxis("horyzontal");
 
-	//		if(Input.GetAxis("Horizontal") >0 || Input.GetAxis("Horizontal") <0)
-	//	{
-			//move(new Vector2(Input.GetAxis("Horizontal"), rb.velocity.y)); // KOSTYL DETECTED
+		//		if(Input.GetAxis("Horizontal") >0 || Input.GetAxis("Horizontal") <0)
+		//	{
+		//move(new Vector2(Input.GetAxis("Horizontal"), rb.velocity.y)); // KOSTYL DETECTED
 		//}
 
-			if(doMove){
-				move(new Vector2(Input.GetAxis("Horizontal"), rb.velocity.y));
-				doMove = false;
-			}
+		if (doMove)
+		{
+			
+			move(new Vector2(Input.GetAxis("Horizontal") * 100, rb.velocity.y));
+			doMove = false;
+		}
+		else {
+			//animanor.SetFloat("speed", 0);
+		}
 
 			if(doJump){
 				jump();
@@ -65,7 +72,15 @@ public class character : MonoBehaviour {
 		//	}
 
 			grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
+		if (grounded)
+		{
+			animanor.SetBool("isJumping", false);
+		}
+		else
+		{
+			animanor.SetBool("isJumping", true);
 
+		}
 
 
 
@@ -92,7 +107,10 @@ public class character : MonoBehaviour {
 	bool firstTimeJump = true; //KOSTYL delete later
 	//bool firtstTimeMove = true; // KOSTYL For keyboard
 	void Update()
+
 	{
+
+		//animanor.SetFloat("speed", )
 
 			if(firstTimeJump && Input.GetKeyDown("w")){
 				//doMove = true;
@@ -107,10 +125,16 @@ public class character : MonoBehaviour {
 
 			if(( Input.GetAxis("Horizontal") >0 || Input.GetAxis("Horizontal") <0))
 		{
+			animanor.SetFloat("speed", 10);
+			//print(Input.GetAxis("Horizontal"));
 			//firstTimeJump = false;
 			doMove = true;
-		
-			//move(new Vector2(Input.GetAxis("Horizontal"), rb.velocity.y)); // KOSTYL DETECTED
+			Vector2 v_move = new Vector2(Input.GetAxis("Horizontal") * 100, rb.velocity.y);
+			//move(v_move); // KOSTYL DETECTED
+		}
+		else
+		{
+			animanor.SetFloat("speed", 0);
 		}
 
 				if (Input.GetAxis("Vertical") > 0)
@@ -153,10 +177,12 @@ public class character : MonoBehaviour {
 	{
 		if(!grounded){
 			//print("Ungrounded force" + jumpForce);
+			animanor.SetBool("isJumping", false);
 		}
 		if (grounded) {
+			animanor.SetBool("isJumping", true);
 			rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
-			print(rb.velocity);
+			//print(rb.velocity);
 
 		}
 	}
@@ -164,8 +190,10 @@ public class character : MonoBehaviour {
 	public void move(Vector2 direction)
 	{
 		float yVel = rb.velocity.y;
-		Vector2 yVelocity = new Vector2(direction.x*5f,  yVel);
+		//print(direction.x);
+		Vector2 yVelocity = new Vector2(direction.x/20,  yVel);
 		//rb.AddForce(direction * speed, ForceMode2D.Impulse);
+		//print(yVelocity);
 		rb.velocity = yVelocity;
 	}
 
